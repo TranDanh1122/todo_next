@@ -1,6 +1,7 @@
+'use client'
 import { TodoSchemaType } from "@/schema/TodoSchema";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-interface Todo extends TodoSchemaType {
+export interface Todo extends TodoSchemaType {
     id?: string,
     isComplete?: boolean
 }

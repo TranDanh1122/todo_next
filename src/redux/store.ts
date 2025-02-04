@@ -1,3 +1,4 @@
+'use client'
 import { configureStore } from "@reduxjs/toolkit";
 import TodoReducer from "./slicers/TodoSlicer"
 export const store = configureStore({
@@ -6,4 +7,4 @@ export const store = configureStore({
     }
 })
 export type AppState = ReturnType<typeof store.getState>
-export type AppDispath = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch

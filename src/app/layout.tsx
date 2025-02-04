@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/context/ThemeContext";
+import ReduxProvider from "@/components/ReduxProvider";
 
 const josefin = Josefin_Sans({
   variable: "--font-josefin-sans",
@@ -23,9 +24,11 @@ export default function RootLayout({
       <body
         className={`${josefin.variable}  antialiased`}
       >
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+        <ReduxProvider>
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
