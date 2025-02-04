@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import clsx from "clsx"
 import React from "react"
 import { useForm } from "react-hook-form"
-export default function TodoForm({ todo }: { todo?: Todo }): React.JSX.Element {
+const TodoForm = React.forwardRef<HTMLFormElement, { todo?: Todo }>(({ todo }, ref): React.JSX.Element => {
     const { dispatch, toogleTodo, createTodo, deleteTodo } = useTodo()
     const form = useForm<TodoSchemaType>({
         defaultValues: {
@@ -16,7 +16,7 @@ export default function TodoForm({ todo }: { todo?: Todo }): React.JSX.Element {
     })
     const onSubmit = async (data: TodoSchemaType, type: string) => {
         if (type == "toogle") {
-            if (todo && todo.id) dispatch(toogleTodo(todo.id))
+            if (todo && todo.id) dispatch(toogleTodo({ id: todo.id, isComplete: !todo.isComplete }))
         } else {
             dispatch(createTodo(data))
         }
@@ -25,15 +25,15 @@ export default function TodoForm({ todo }: { todo?: Todo }): React.JSX.Element {
         form.setValue("title", todo?.title ?? "")
     }, [])
 
-    return <form onSubmit={form.handleSubmit((data) => onSubmit(data, todo ? "toogle" : "create"))} className="flex items-center justify-start gap-6 px-6 py-5 bg-white rounded-xl">
+    return <form ref={ref} onSubmit={form.handleSubmit((data) => onSubmit(data, todo ? "toogle" : "create"))} className="flex items-center justify-start gap-6 px-6 py-5 bg-white rounded-xl">
         <button type="submit" className={clsx("border-[1px] border-solid border-[#E3E4F1] w-6 h-6 rounded-full cursor-pointer", {
             "bg-gradient-to-br from-[#55DDFF] to-[#C058F3]": todo?.isComplete,
             "bg-white": !todo?.isComplete
         })}>
             <i className="block w-2 h-2 bg-white absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
                 style={{
-                    mask: "url(./images/icon-checkk.svg) center / cover no-repeat",
-                    WebkitMask: "url(./images/icon-check.svg) center/ cover no-repeat"
+                    mask: "url(./assets/images/icon-checkk.svg) center / cover no-repeat",
+                    WebkitMask: "url(./assets/images/icon-check.svg) center/ cover no-repeat"
                 }}>
             </i>
         </button>
@@ -45,4 +45,6 @@ export default function TodoForm({ todo }: { todo?: Todo }): React.JSX.Element {
             }}></i>
         }
     </form>
-}
+})
+TodoForm.displayName = "TodoForm"
+export default TodoForm

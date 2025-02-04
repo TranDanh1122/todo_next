@@ -16,6 +16,7 @@ datasource db {
 model Todo {
   id         String   @id @default(cuid())
   title      String
+  isComplete Boolean @default(false)
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 }
