@@ -6,11 +6,15 @@ import { useTheme } from "./hooks/useTheme";
 import { useTodo } from "./hooks/useTodo";
 import { Todo } from "@/redux/slicers/TodoSlicer";
 import { useScrollbar } from "./hooks/useScrollbar"
+import { TodoSchemaType } from "@/schema/TodoSchema";
 export default function Home(): React.JSX.Element {
   const { theme, setTheme } = useTheme()
-  const { todos } = useTodo()
+  const { todos, loading, dispatch, toogleTodo, createTodo, deleteTodo } = useTodo()
   const { ref } = useScrollbar(todos)
-  return (
+  return (<>
+    {loading && <div className="flex h-screen w-full items-center justify-center fixed top-0 left-0 bg-white/70">
+      <div className="loader"></div>
+    </div>}
     <main
       className={clsx("w-full h-full min-h-screen bg-no-repeat bg-top bg-fixed bg-contain py-20", {
         "bg-mobile-light md:bg-desk-light": theme == "light",
@@ -19,19 +23,22 @@ export default function Home(): React.JSX.Element {
       <div className="container mx-auto h-full md:w-1/2">
         <div ref={ref.current.header} className="flex items-center justify-between mb-10 ">
           <h1 className="font-bold text-[2.5rem] tracking-[1rem] text-white">TODO</h1>
-          <i onClick={() => setTheme(theme == "light" ? "dark" : "light ")} className="w-6 h-6 block bg-white" style={{
+          <i onClick={() => setTheme(theme == "light" ? "dark" : "light")} className="w-6 h-6 block bg-white" style={{
             mask: `url("/assets/images/${theme == "light" ? "icon-moon.svg" : "icon-sun.svg"}") center/cover no-repeat`,
             WebkitMask: `url("/assets/images/${theme == "light" ? "icon-moon.svg" : "icon-sun.svg"}") center/cover no-repeat`
           }}></i>
         </div>
-        <TodoForm ref={ref.current.create} />
-        <div ref={ref.current.list} className="bg-white rounded-lg mt-6">
-          {
-            todos.map((el: Todo) => <TodoForm key={el.id} todo={el} />)
-          }
+        <TodoForm ref={ref.current.create} onCreate={(data: TodoSchemaType) => {
+          console.log(data);
+          dispatch(createTodo(data))
+        }} />
+        <div ref={ref.current.list} className="bg-white rounded-lg mt-6 shadow-2xl">
+          {todos.map((el: Todo) => <TodoForm key={el.id} todo={el}
+            onDelete={(id: string) => dispatch(deleteTodo(id))}
+            toogleTodo={({ id, isComplete }: { id: string, isComplete: boolean }) => dispatch(toogleTodo({ id, isComplete }))} />)}
         </div>
-
       </div>
     </main >
+  </>
   )
 }

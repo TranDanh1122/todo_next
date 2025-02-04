@@ -12,6 +12,8 @@ interface state {
 }
 export const createTodo = createAsyncThunk("todo/create", async (todo: TodoSchemaType, { rejectWithValue }) => {
     try {
+        console.log("create todo");
+        
         return await create(todo)
     } catch (error) {
         rejectWithValue(error)
@@ -33,6 +35,7 @@ export const deleteTodo = createAsyncThunk("todo/delete", async (id: string, { r
 })
 export const fetchData = createAsyncThunk("todo/fecth", async (_, { rejectWithValue }) => {
     try {
+        console.log("fetchData is running...");
         return await getTodos()
     } catch (error) {
         rejectWithValue(error)
@@ -42,22 +45,10 @@ const todoSlicer = createSlice({
     name: "slicer/todo",
     initialState: {
         todos: [],
-        loading: false
+        loading: true
     },
     reducers: {
-        init: (state: state) => {
-            const initData = async () => {
-                try {
-                    state.loading = true
-                    const data = await getTodos()
-                    state.todos = data
-                    state.loading = false
-                } catch (error) {
-                    throw new Error(error as string)
-                }
-            }
-            initData()
-        }
+
     },
     extraReducers: (builder) => {
         builder.addCase(createTodo.pending, (state: state) => {
@@ -85,10 +76,12 @@ const todoSlicer = createSlice({
                 state.loading = false
             }
         }).addCase(fetchData.pending, (state: state) => {
-            state.loading = false
+            state.loading = true
         }).addCase(fetchData.fulfilled, (state: state, action: PayloadAction<Todo[] | undefined>) => {
-            state.loading = false
-            state.todos = action.payload || []
+            if (action.payload) {
+                state.loading = false
+                state.todos = action.payload || []
+            }
         })
     }
 })
