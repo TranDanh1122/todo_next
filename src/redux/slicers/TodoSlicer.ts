@@ -5,16 +5,10 @@ export interface Todo extends TodoSchemaType {
     id?: string,
     isComplete?: boolean
 }
-const initData: Todo[] = [
-    {
-        id: "",
-        title: "",
-        isComplete: false
-    }
-]
+
 const todoSlicer = createSlice({
     name: "slicer/todo",
-    initialState: initData,
+    initialState: [],
     reducers: {
         createTodo: (state: Todo[], action: PayloadAction<TodoSchemaType>) => {
             state.push(action.payload)

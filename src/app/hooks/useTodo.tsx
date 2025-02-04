@@ -1,7 +1,8 @@
 import { createTodo, deleteTodo, toogleTodo } from "@/redux/slicers/TodoSlicer";
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, AppState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 export const useTodo = () => {
     const dispatch: AppDispatch = useDispatch()
-    return { dispatch, deleteTodo, createTodo, toogleTodo }
+    const todo = useSelector((state: AppState) => state.todo)
+    return { dispatch, deleteTodo, createTodo, toogleTodo, todo }
 }
