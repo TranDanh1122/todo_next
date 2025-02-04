@@ -16,9 +16,9 @@ export default function Home(): React.JSX.Element {
       <div className="loader"></div>
     </div>}
     <main
-      className={clsx("w-full h-full min-h-screen bg-no-repeat bg-top bg-fixed bg-contain py-20", {
+      className={clsx("w-full h-full min-h-screen  bg-no-repeat bg-top bg-fixed bg-contain py-20", {
         "bg-mobile-light md:bg-desk-light": theme == "light",
-        "bg-mobile-dark md:bg-desk-dark": theme == "dark",
+        "bg-mobile-dark md:bg-desk-dark bg-[#171823]": theme == "dark",
       })}>
       <div className="container mx-auto h-full md:w-1/2">
         <div ref={ref.current.header} className="flex items-center justify-between mb-10 ">
@@ -32,10 +32,26 @@ export default function Home(): React.JSX.Element {
           console.log(data);
           dispatch(createTodo(data))
         }} />
-        <div ref={ref.current.list} className="bg-white rounded-lg mt-6 shadow-2xl">
+        <div ref={ref.current.list} className={clsx("rounded-lg mt-6 shadow-2xl", {
+          "bg-[#25273D]": theme == "dark",
+          "bg-white ": theme == "light"
+        })}>
           {todos.map((el: Todo) => <TodoForm key={el.id} todo={el}
             onDelete={(id: string) => dispatch(deleteTodo(id))}
             toogleTodo={({ id, isComplete }: { id: string, isComplete: boolean }) => dispatch(toogleTodo({ id, isComplete }))} />)}
+        </div>
+
+        <div ref={ref.current.footer} className={clsx("flex px-6 py-4 w-full md:justify-between justify-center items-center md:text-[0.875rem] text-[.75rem] tracking-[-0.2px] font-bold capitalize", {
+          "text-[#5B5E7E] bg-[#25273D]": theme == "dark",
+          "text-[#9495A5] bg-white": theme == "light"
+        })}>
+          <span className=" gap-1 items-center hidden md:flex"><span>{todos.length}</span>items left</span>
+          <ul className="flex items-center justify-start  gap-5 ">
+            <li className={"all" == "all" ? "text-[#3A7CFD]" : ""}><a href="#">all</a></li>
+            <li className={"all" == "active" ? "text-[#3A7CFD]" : ""}><a href="#">active</a></li>
+            <li className={"all" == "completed" ? "text-[#3A7CFD]" : ""}><a href="#">completed</a></li>
+          </ul>
+          <span className="cursor-pointer mb:hidden" >clear completed</span>
         </div>
       </div>
     </main >

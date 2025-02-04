@@ -5,6 +5,7 @@ export const useScrollbar = (todo: Todo[]) => {
         header: React.createRef<HTMLDivElement>(),
         create: React.createRef<HTMLFormElement>(),
         list: React.createRef<HTMLDivElement>(),
+        footer: React.createRef<HTMLDivElement>()
     })
     React.useLayoutEffect(() => {
         if (ref.current.list.current) ref.current.list.current.style.maxHeight = "none"
@@ -12,7 +13,8 @@ export const useScrollbar = (todo: Todo[]) => {
     const setScroll = React.useCallback(() => {
         const formHeight = ref.current.create.current?.getBoundingClientRect().height ?? 0
         const headerHeight = ref.current.header.current?.getBoundingClientRect().height ?? 0
-        const availableHeight = window.innerHeight - formHeight - headerHeight - 160 - 64
+        const footerHeight = ref.current.footer.current?.getBoundingClientRect().height ?? 0
+        const availableHeight = window.innerHeight - formHeight - headerHeight - footerHeight - 160 - 64
         if (ref.current.list.current) {
             const listHeight = ref.current.list.current.getBoundingClientRect().height
             console.log(listHeight, availableHeight);
