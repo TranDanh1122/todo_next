@@ -31,7 +31,7 @@ const TodoForm = React.forwardRef<HTMLFormElement, Props>(({ todo, toogleTodo, o
         form.setValue("title", todo?.title ?? "")
     }, [])
     const { theme } = useTheme()
-    return <form ref={ref} onSubmit={form.handleSubmit((data) => onSubmit(data, todo ? "toogle" : "create"))} className={clsx("flex items-center justify-start gap-6 px-6 py-5 bg-white border-b-[1px] border-solid border-[#C8CBE7]", {
+    return <form ref={ref} onSubmit={form.handleSubmit((data) => onSubmit(data, todo ? "toogle" : "create"))} className={clsx("flex items-center justify-start gap-6 px-6 py-5 border-b-[1px] border-solid border-[#C8CBE7]", {
         "bg-[#25273D]": theme == "dark",
         "bg-white": theme == "light",
         "rounded-xl ": !todo
