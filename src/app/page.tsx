@@ -20,7 +20,7 @@ export default function Home(): React.JSX.Element {
         "bg-mobile-light md:bg-desk-light": theme == "light",
         "bg-mobile-dark md:bg-desk-dark bg-[#171823]": theme == "dark",
       })}>
-      <div className="container mx-auto h-full md:w-1/2">
+      <div className="container w-[90%] mx-auto h-full md:w-1/2">
         <div ref={ref.current.header} className="flex items-center justify-between mb-10 ">
           <h1 className="font-bold text-[2.5rem] tracking-[1rem] text-white">TODO</h1>
           <i onClick={() => setTheme(theme == "light" ? "dark" : "light")} className="w-6 h-6 block bg-white" style={{
