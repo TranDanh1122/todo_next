@@ -3,6 +3,7 @@ import { Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/context/ThemeContext";
 import ReduxProvider from "@/components/ReduxProvider";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const josefin = Josefin_Sans({
   variable: "--font-josefin-sans",
@@ -27,6 +28,7 @@ export default function RootLayout({
         <ReduxProvider>
           <ThemeProvider>
             {children}
+            <SpeedInsights />
           </ThemeProvider>
         </ReduxProvider>
       </body>
